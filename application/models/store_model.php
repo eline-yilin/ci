@@ -10,6 +10,7 @@ class store_model extends CI_Model {
 		// Call the Model constructor
 		parent::__construct();
 		$this->load->database('default');
+		$this->load->helper('db');
 	}
 
 	function getEntityDetail($id)
@@ -34,11 +35,11 @@ class store_model extends CI_Model {
 	function createEntityDetail($obj)
 	{
 		return $obj;
-		$this->title   = $_POST['title'];
-		$this->content = $_POST['content'];
-		$this->date    = time();
-	
-			$this->db->insert('entries', $this);
+		//my_process_db_request('entity', 'create', $obj, $this);
+
+		$this->db->insert('entity', $this);
+		return $this->db->insert_id();
+		//return $obj;
 	}
 	
 	function deleteEntityDetail($id)

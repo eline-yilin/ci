@@ -21,23 +21,34 @@ class store_model extends CI_Model {
 		}
 	}
 
-	function insert_entry()
+	function updateEntityDetail($obj)
 	{
-		$this->title   = $_POST['title']; // please read the below note
-		$this->content = $_POST['content'];
-		$this->date    = time();
-
-		$this->db->insert('entries', $this);
-	}
-
-	function update_entry()
-	{
+		return $obj;
 		$this->title   = $_POST['title'];
 		$this->content = $_POST['content'];
 		$this->date    = time();
 
 		$this->db->update('entries', $this, array('id' => $_POST['id']));
 	}
-
+	
+	function createEntityDetail($obj)
+	{
+		return $obj;
+		$this->title   = $_POST['title'];
+		$this->content = $_POST['content'];
+		$this->date    = time();
+	
+			$this->db->insert('entries', $this);
+	}
+	
+	function deleteEntityDetail($id)
+	{
+		return $id;
+		$this->title   = $_POST['title'];
+		$this->content = $_POST['content'];
+		$this->date    = time();
+	
+		$this->db->update('entries', $this, array('id' => $_POST['id']));
+	}
 }
 ?>

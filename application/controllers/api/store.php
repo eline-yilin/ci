@@ -61,23 +61,66 @@ class Store extends REST_Controller
 	 */
 	public function detail_put()
     {
-		
+    	$request = $this->put();
+    	/* if(!$this->put('id'))
+    	{
+    		$this->response(NULL, 400);
+    	} */
+    	
+    	$item = $this->store->updateEntityDetail($request);
+    		
+    	if($item)
+    	{
+    		$this->response($item, 200); // 200 being the HTTP response code
+    	}
+    	
+    	else
+    	{
+    		$this->response(array('error' => 'Item could not be found'), 404);
+    	}
     }
 
-	// --------------------------------------------------------------------
-
-	/**
-	 * Key Delete
-	 *
-	 * Remove a key from the database to stop it working.
-	 *
-	 * @access	public
-	 * @return	void
-	 */
-	public function detail_delete()
+    public function detail_post()
     {
-		
+    	$request = $this->post();
+    	/* if(!$this->put('id'))
+    	 {
+    	 $this->response(NULL, 400);
+    	} */
+    	 
+    	$item = $this->store->createEntityDetail($request);
+    
+    	if($item)
+    	{
+    		$this->response($item, 200); // 200 being the HTTP response code
+    	}
+    	 
+    	else
+    	{
+    		$this->response(array('error' => 'Item could not be found'), 404);
+    	}
     }
+    
 
+    function detail_delete()
+    {
+    	if(!$this->get('id'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    
+    	$item = $this->store->deleteEntityDetail($this->get('id'));
+    		
+    	if($item)
+    	{
+    		$this->response($item, 200); // 200 being the HTTP response code
+    	}
+    
+    	else
+    	{
+    		$this->response(array('error' => 'Item could not be found'), 404);
+    	}
+    }
+    
 	
 }

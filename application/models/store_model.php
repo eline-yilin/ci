@@ -1,9 +1,16 @@
 <?php
 class store_model extends CI_Model {
 
-	var $title   = '';
+	var $main_table   = 'entity';
 	var $content = '';
-	var $date    = '';
+	var $data    = array(
+			'id' => array(
+			'default'=> 0,
+			'required'=>true,
+			'type'=>'int'		
+			),
+			'name','description','category_id','address_id','is_deleted'
+	);
 
 	function __construct()
 	{
@@ -24,18 +31,18 @@ class store_model extends CI_Model {
 
 	function updateEntityDetail($obj)
 	{
-		return $obj;
-		$this->title   = $_POST['title'];
-		$this->content = $_POST['content'];
-		$this->date    = time();
+		$request = my_process_db_request($obj, $this->data);
+		return $request;
+		
 
-		$this->db->update('entries', $this, array('id' => $_POST['id']));
+		$this->db->update('entity', $request, array('id' => $_POST['id']));
 	}
 	
 	function createEntityDetail($obj)
 	{
 		return $obj;
-		//my_process_db_request('entity', 'create', $obj, $this);
+		
+		my_process_db_request($obj, $this->data, true);
 
 		$this->db->insert('entity', $this);
 		return $this->db->insert_id();

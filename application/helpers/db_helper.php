@@ -14,7 +14,7 @@ if ( ! function_exists('my_process_db_request'))
 		    foreach($target as $key => $attr){
 		    			//set in param
 		    			if(isset($param[$key])){
-		    				$request[$key] = $param[$key]
+		    				$request[$key] = $param[$key];
 		    			}
 		    			else{
 		    				//has default
@@ -23,10 +23,10 @@ if ( ! function_exists('my_process_db_request'))
 		    			   		$request[$key] = $attr['default'];
 		    			   }
 		    			   else{
-		    			   	//has type default
-		    			   	if(isset($attr['type']) && isset($type_default_mapping[$attr['type']]))
-		    			   		$request[$key] = $type_default_mapping[$attr['type']];
-		    			   }
+			    			   	//has type default
+			    			   	if(isset($attr['type']) && isset($type_default_mapping[$attr['type']])){
+			    			   		$request[$key] = $type_default_mapping[$attr['type']];
+			    			   }
 		    			   else
 		    			   {
 		    			   	$request[$key] = null;
@@ -35,7 +35,7 @@ if ( ! function_exists('my_process_db_request'))
 		    			   	}
 		    			   }
 		    			}
-
+		    			}
 		    }
 	    	return $request;
     	}

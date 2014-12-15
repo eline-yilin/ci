@@ -23,20 +23,20 @@ if ( ! function_exists('my_process_db_request'))
 		    			   		$request[$key] = $attr['default'];
 		    			   }
 		    			   else{
-		    			   	//has type default
+
+			    			   	//has type default
 			    			   	if(isset($attr['type']) && isset($type_default_mapping[$attr['type']])){
 			    			   		$request[$key] = $type_default_mapping[$attr['type']];
 			    			   }
-			    			   else
-			    			   {
-				    			   	$request[$key] = null;
-				    			   	if($is_mandatory){
-				    			   		return false;
-				    			   	}
-			    			   }
-		    			  }
+		    			   else
+		    			   {
+		    			   	$request[$key] = null;
+		    			   	if($is_mandatory){
+		    			   		return false;
+		    			   	}
+		    			   }
 		    			}
-
+		    			}
 		    }
 	    	return $request;
     	}

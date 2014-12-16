@@ -39,6 +39,19 @@ class product_model extends CI_Model {
 		$this->load->database('default');
 		$this->load->helper('db');
 	}
+	
+	function getList($param = null)
+	{
+		$query = $this->db->get_where('product', array('is_deleted'=>0));
+		$resp = array();
+		foreach ($query->result() as $row)
+		{
+			$resp[] = $row;
+		}
+		
+		return $resp;
+	}
+	
 
 	function getDetail($id)
 	{

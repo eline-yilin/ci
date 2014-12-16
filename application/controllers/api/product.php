@@ -31,6 +31,22 @@ class Product extends REST_Controller
 		$this->load->model('product_model','product');
 	}
 	
+	function list_get()
+	{
+		
+	
+		$item = $this->product->getList();
+		if($item)
+		{
+			$this->response($item, 200); // 200 being the HTTP response code
+		}
+	
+		else
+		{
+			$this->response(array('error' => 'Item could not be found'), 404);
+		}
+	}
+	
 	function detail_get()
 	{
 		if(!$this->get('id'))

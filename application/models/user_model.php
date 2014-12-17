@@ -13,7 +13,7 @@ class user_model extends CI_Model {
 			'required'=>true,
 			'type'=>'string'		
 			),
-			'username' => array(
+			'phone' => array(
 					'required'=>true,
 					'type'=>'string'
 			),
@@ -55,10 +55,18 @@ class user_model extends CI_Model {
  
 	function login($username, $password)
 	{
-		$query = $this->db->get_where('user', array('username' => $username,'password' => $password,'is_deleted'=>0));
-		foreach ($query->result() as $row)
-		{
-			return $row;
+		$string = "SELECT * FROM user where (password='{$password}' AND is_deleted= 0 AND (phone = '{$username}' OR email='{$username}') )";
+		//$query = $this->db->get_where('user', array('phone' => $username,'password' => $password));
+		/* $query = $this->db->select("*")
+		->from("user")
+		->where($where); */
+		$query = $this->db->query($string);
+		
+		if($query && $query->result()){
+			foreach ($query->result() as $row)
+			{
+				return $row;
+			}
 		}
 		return false;
 	}

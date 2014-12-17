@@ -55,7 +55,6 @@ class User extends REST_Controller
 		}
 	
 		$item = $this->main->login($this->post('username'), $this->post('password'));
-			
 		if($item)
 		{
 			$this->response($item, 200); // 200 being the HTTP response code

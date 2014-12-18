@@ -164,6 +164,27 @@ CREATE TABLE  `news` (
 ) 
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE `role` (
+	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+	`name` CHAR(20) NOT NULL DEFAULT ' ',
+	PRIMARY KEY (`id`)
+)
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `user_role`;
+CREATE TABLE `user_role` (
+	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+	`user_id` INT NOT NULL,
+	`role_id` INT NOT NULL,
+	`entity_id` INT NOT NULL,
+	`entity_type` VARCHAR(50) NOT NULL DEFAULT 'entity',
+	`is_deleted` TINYINT NOT NULL DEFAULT '0',
+	PRIMARY KEY (`id`)
+)
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 
 ALTER TABLE `news`
 	ADD COLUMN `target_id` INT(10) UNSIGNED NULL AFTER `is_deleted`,
@@ -175,3 +196,6 @@ ALTER TABLE `user`
 	ADD COLUMN `password` CHAR(20) NOT NULL  DEFAULT '' AFTER `email`;
 ALTER TABLE `user`
 	ADD COLUMN `is_deleted` TINYINT NOT NULL DEFAULT '0' AFTER `gender`;
+ALTER TABLE `entity`
+	ADD COLUMN `client_id` INT(10) UNSIGNED NOT NULL DEFAULT '0' AFTER `address_id`;
+	

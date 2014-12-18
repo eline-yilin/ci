@@ -204,7 +204,7 @@ abstract class REST_Controller extends CI_Controller
 
         // This library is bundled with REST_Controller 2.5+, but will eventually be part of CodeIgniter itself
         $this->load->library('format');
-
+         $this->load->library('session');
         // init objects
         $this->response     = new stdClass();
         $this->rest         = new stdClass();
@@ -302,6 +302,7 @@ abstract class REST_Controller extends CI_Controller
             $rest_auth = strtolower($this->config->item('rest_auth'));
             switch ($rest_auth) {
                 case 'basic':
+                case 'custom':
                     $this->_prepare_basic_auth();
                     break;
                 case 'digest':
@@ -1299,6 +1300,10 @@ abstract class REST_Controller extends CI_Controller
         
         $auth_source = strtolower($this->config->item('auth_source'));
         $rest_auth = strtolower($this->config->item('rest_auth'));
+        if($rest_auth == 'custom')
+        {
+        	return $this->my_custom_auth($username,$password);
+        }
         $valid_logins = $this->config->item('rest_valid_logins');
         
         if (!$this->config->item('auth_source') && $rest_auth == 'digest') { // for digest we do not have a password passed as argument
@@ -1532,5 +1537,15 @@ abstract class REST_Controller extends CI_Controller
 
         return false;
     }
-
+  
+    protected function my_custom_auth($username,$password){
+	    if($username && $password){
+	    	$client_id = 0;
+	    	$this->session->set_userdata('client_id', $client_id);
+	    	return true;
+	    }
+	    else{
+	    	return false;
+	    }
+    }
 }

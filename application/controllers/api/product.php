@@ -34,8 +34,8 @@ class Product extends REST_Controller
 	function list_get()
 	{
 		
-	
-		$item = $this->product->getList();
+	   $user_id = $this->get('user_id');
+		$item = $this->product->getList(array('user_id'=>$user_id));
 		if($item)
 		{
 			$this->response($item, 200); // 200 being the HTTP response code

@@ -1,5 +1,6 @@
 <?php
-class user_model extends CI_Model {
+require(APPPATH.'/models/My_model.php');
+class user_model extends My_Model {
 
 	var $main_table   = 'user';
 	var $content = '';
@@ -36,8 +37,6 @@ class user_model extends CI_Model {
 	{
 		// Call the Model constructor
 		parent::__construct();
-		$this->load->database('default');
-		$this->load->helper('db');
 	}
 	
 	function getList($param = null)
@@ -55,13 +54,14 @@ class user_model extends CI_Model {
   
 	function login($username, $password)
 	{
+		$client_id = $this->client_id;
 		$string = "SELECT * FROM user u 
-		WHERE u.password= ? AND u.is_deleted= 0 AND (u.phone = ? OR u.email=?) LIMIT 1";
+		WHERE u.password= ? AND u.is_deleted= 0 AND (u.phone = ? OR u.email=?) AND clientid = ? LIMIT 1";
 		//$query = $this->db->get_where('user', array('phone' => $username,'password' => $password));
 		/* $query = $this->db->select("*")
 		->from("user")
 		->where($where); */
-		$query = $this->db->query($string, array($password,$username,$username));
+		$query = $this->db->query($string, array($password,$username,$username, $client_id));
 		
 		if($query && $query->result()){
 			foreach ($query->result() as $row)
@@ -116,26 +116,5 @@ class user_model extends CI_Model {
 		$this->db->update('entries', $this, array('id' => $_POST['id']));
 	}
 	
-	protected function getUserRoles($uid)
-	{
-		$string = "SELECT r.*, e.name as entity_name FROM user_role r LEFT JOIN
-				entity e
-				ON 
-				
-					(r.entity_type='entity' AND r.entity_id = e.id )
-
-				
-		WHERE r.user_id = ? AND r.is_deleted = 0  AND e.is_deleted = 0";
-		//$query = $this->db->get_where('user', array('phone' => $username,'password' => $password));
-		/* $query = $this->db->select("*")
-		 ->from("user")
-		 ->where($where); */
-		$query = $this->db->query($string, array($uid));
-		
-		if($query && $query->result()){
-			return $query->result();
-		}
-		return null;
-	}
 }
 ?>

@@ -269,16 +269,16 @@ abstract class REST_Controller extends CI_Controller
         // Developers can extend this class and add a check in here
         $this->early_checks();
 
-        $this->rest             = new StdClass();
-
+        $this->rest             = new StdClass();$this->load->database('default');
+        $this->rest->db     = $this->load->database('default', true);
         // Load DB if its enabled
         if (config_item('rest_database_group') and (config_item('rest_enable_keys') or config_item('rest_enable_logging'))) {
-            $this->rest->db     = $this->load->database(config_item('rest_database_group'), true);
+           // $this->rest->db     = $this->load->database(config_item('default'), true);
         }
 
         // Use whatever database is in use (isset returns false)
         elseif (property_exists($this, "db")) {
-            $this->rest->db     = $this->db;
+          //  $this->rest->db     = $this->db;
         }
 
         // Check if there is a specific auth type for the current class/method
@@ -1541,7 +1541,28 @@ abstract class REST_Controller extends CI_Controller
     protected function my_custom_auth($username,$password){
 	    if($username && $password){
 	    	$client_id = 0;
+	    	//$str = "SELECT * FROM client WHERE username = ? AND password=? AND is_deleted=0 AND status='active' LIMIT 1";
+	    	$query = $this->rest->db->get_where('client', 
+	    			array(
+	    					'username'=>$username,
+	    					'password'=>$password,
+	    					//'is_deleted'=>0,
+	    					//'status'=>'active'
+	    			));
+	    	
+	    	//$query = $this->rest->db->query($str, array($username,$password));
+	    	//echo $this->rest->db->last_query();
+	    	
+		    foreach ($query->result() as $row)
+			{
+			    $client_id =  $row->id;
+			    break;
+			}
 	    	$this->session->set_userdata('client_id', $client_id);
+	    	if(!$client_id)
+	    	{
+	    		return false;
+	    	}
 	    	return true;
 	    }
 	    else{

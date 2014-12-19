@@ -1,5 +1,6 @@
 <?php
-class product_model extends CI_Model {
+require(APPPATH.'/models/My_model.php');
+class product_model extends My_Model {
 
 	var $main_table   = 'product';
 	var $content = '';
@@ -36,13 +37,16 @@ class product_model extends CI_Model {
 	{
 		// Call the Model constructor
 		parent::__construct();
-		$this->load->database('default');
-		$this->load->helper('db');
 	}
 	
 	function getList($param = null)
 	{
-		$query = $this->db->get_where('product', array('is_deleted'=>0));
+		$user_id = isset($param['user_id']) ? $param['user_id'] : 0;
+		$str = "SELECT p.* FROM product p LEFT JOIN user_role r
+				ON p.entity_id = r.entity_id AND r.entity_type = 'entity' AND r.is_deleted = 0 AND
+				p.is_deleted = 0
+				WHERE r.user_id = ?";
+		$query = $this->db->query($str, array($user_id));
 		$resp = array();
 		foreach ($query->result() as $row)
 		{

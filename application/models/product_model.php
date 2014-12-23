@@ -45,7 +45,11 @@ class product_model extends My_Model {
 		$str = "SELECT p.* FROM product p LEFT JOIN user_role r
 				ON p.entity_id = r.entity_id AND r.entity_type = 'entity' AND r.is_deleted = 0 AND
 				p.is_deleted = 0
-				WHERE r.user_id = ?";
+				WHERE 1=1 ";
+		if($user_id)
+		{
+			$str .= "AND r.user_id = ?";
+		}
 		$query = $this->db->query($str, array($user_id));
 		$resp = array();
 		foreach ($query->result() as $row)

@@ -66,6 +66,25 @@ class User extends REST_Controller
 		}
 	}
 	
+	function register_post()
+	{
+		if(!($this->post('email') || $this->post('phone')) || ! $this->post('password'))
+		{
+			$this->response(NULL, 400);
+		}
+	
+		$item = $this->main->register($this->post());
+		if($item)
+		{
+			$this->response($item, 200); // 200 being the HTTP response code
+		}
+	
+		else
+		{
+			$this->response(array('error' => 'Item could not be found'), 404);
+		}
+	}
+	
 	function detail_get()
 	{
 		if(!$this->get('id'))

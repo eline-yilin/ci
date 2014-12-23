@@ -77,6 +77,33 @@ class user_model extends My_Model {
 		return false;
 	}
 	
+	function register($obj)
+	{
+		$client_id = $this->client_id;
+		$request = my_process_db_request($obj, $this->data, false);
+		return $request;
+		$string = "SELECT * FROM user u
+		WHERE u.password= ? AND u.is_deleted= 0 AND (u.phone = ? OR u.email=?) AND clientid = ? LIMIT 1";
+		//$query = $this->db->get_where('user', array('phone' => $username,'password' => $password));
+		/* $query = $this->db->select("*")
+			->from("user")
+			->where($where); */
+		$query = $this->db->query($string, array($password,$username,$username, $client_id));
+	
+		if($query && $query->result()){
+			foreach ($query->result() as $row)
+			{
+				$row->roles = array();
+				if($roles = $this->getUserRoles($row->id))
+				{
+					$row->roles = $roles;
+				}
+				return $row;
+			}
+		}
+		return false;
+	}
+	
 	function getDetail($id)
 	{
 		$query = $this->db->get_where('entity', array('id' => $id,'is_deleted'=>0));

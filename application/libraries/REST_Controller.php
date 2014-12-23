@@ -1539,6 +1539,7 @@ abstract class REST_Controller extends CI_Controller
     }
   
     protected function my_custom_auth($username,$password){
+    	
 	    if($username && $password){
 	    	$client_id = 0;
 	    	//$str = "SELECT * FROM client WHERE username = ? AND password=? AND is_deleted=0 AND status='active' LIMIT 1";
@@ -1558,6 +1559,7 @@ abstract class REST_Controller extends CI_Controller
 			    $client_id =  $row->id;
 			    break;
 			}
+
 	    	$this->session->set_userdata('client_id', $client_id);
 	    	if(!$client_id)
 	    	{

@@ -28,7 +28,23 @@ class Store extends REST_Controller
 	{
 		// Call the Model constructor
 		parent::__construct();
-		$this->load->model('store_model','store');
+		$this->load->model('store_model','entity');
+	}
+	
+	function list_get()
+	{
+		
+	   $user_id = $this->get('user_id');
+		$item = $this->entity->getList(array('user_id'=>$user_id));
+		if($item)
+		{
+			$this->response($item, 200); // 200 being the HTTP response code
+		}
+	
+		else
+		{
+			$this->response(array('error' => 'Item could not be found'), 404);
+		}
 	}
 	
 	function detail_get()
@@ -38,7 +54,7 @@ class Store extends REST_Controller
 			$this->response(NULL, 400);
 		}
 	
-		$item = $this->store->getEntityDetail($this->get('id'));
+		$item = $this->product->getDetail($this->get('id'));
 		 
 		if($item)
 		{
@@ -67,7 +83,7 @@ class Store extends REST_Controller
     		$this->response(NULL, 400);
     	} */
     	
-    	$item = $this->store->updateEntityDetail($request);
+    	$item = $this->product->updateDetail($request);
     		
     	if($item)
     	{
@@ -88,9 +104,8 @@ class Store extends REST_Controller
     	 {
     	 $this->response(NULL, 400);
     	} */
-    	 
-    	$item = $this->store->createEntityDetail($request);
-    
+    	$item = $this->entity->createDetail($request);
+
     	if($item)
     	{
     		$this->response($item, 200); // 200 being the HTTP response code
@@ -110,7 +125,7 @@ class Store extends REST_Controller
     		$this->response(NULL, 400);
     	}
     
-    	$item = $this->store->deleteEntityDetail($this->get('id'));
+    	$item = $this->product->deleteDetail($this->get('id'));
     		
     	if($item)
     	{

@@ -1559,7 +1559,6 @@ abstract class REST_Controller extends CI_Controller
 			    $client_id =  $row->id;
 			    break;
 			}
-
 	    	$this->session->set_userdata('client_id', $client_id);
 	    	if(!$client_id)
 	    	{

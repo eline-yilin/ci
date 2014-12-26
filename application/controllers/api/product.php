@@ -99,7 +99,6 @@ class Product extends REST_Controller
     public function detail_post()
     {
     	$request = $this->post();
-    	
     	/* if(!$this->put('id'))
     	 {
     	 $this->response(NULL, 400);

@@ -18,6 +18,10 @@ class product_model extends My_Model {
 					'required'=>true,
 					'type'=>'int'
 			),
+			'entity_id' => array(
+					'required'=>true,
+					'type'=>'int'
+			),
 			'description'=> array(
 					'type'=>'string'
 			),

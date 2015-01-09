@@ -67,7 +67,7 @@ class product_model extends My_Model {
 
 	function getDetail($id)
 	{
-		$query = $this->db->get_where('entity', array('id' => $id,'is_deleted'=>0));
+		$query = $this->db->get_where('product', array('id' => $id,'is_deleted'=>0));
 		foreach ($query->result() as $row)
 		{
 			return $row;

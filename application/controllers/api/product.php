@@ -55,7 +55,6 @@ class Product extends REST_Controller
 		}
 	
 		$item = $this->product->getDetail($this->get('id'));
-		 
 		if($item)
 		{
 			$this->response($item, 200); // 200 being the HTTP response code
@@ -77,14 +76,16 @@ class Product extends REST_Controller
 	 */
 	public function detail_put()
     {
+    	
     	$request = $this->put();
+
     	/* if(!$this->put('id'))
     	{
     		$this->response(NULL, 400);
     	} */
     	
-    	$item = $this->product->updateDetail($request);
-    		
+    	//$item = $this->product->updateDetail($request);
+    	$item = $request;
     	if($item)
     	{
     		$this->response($item, 200); // 200 being the HTTP response code
